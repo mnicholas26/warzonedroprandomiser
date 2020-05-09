@@ -23,10 +23,10 @@ window.onload = function()
         {
             row = 1 + Math.floor(Math.random()*8);
             col = 2 + Math.floor(Math.random()*7);
-            if(!deadzones.map(x => x.x).includes(row) && !deadzones.map(x => x.y).includes(col)) deadzone = false;
+            if(!deadzones.map(x => x.x + (x.y*10)).includes((row*10)+col)) deadzone = false;
         }
-        let x = 8 + 98.4*row;
-        let y = 8 + 98.4*col;
+        let x = 8 + 98.4*col;
+        let y = 8 + 98.4*row;
 
         let square = document.createElementNS(ns, "rect");
         square.setAttribute('width', 97.4);
@@ -44,5 +44,11 @@ window.onload = function()
 
     document.getElementById("roll").addEventListener("click", () => {
         randomsquare();
+        /* 
+        //for testing
+        for(let i = 0; i < 100; i++)
+        {
+            randomsquare();
+        }*/
     });
 }
