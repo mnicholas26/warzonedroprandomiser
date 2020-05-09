@@ -1,7 +1,7 @@
 window.onload = function()
 {
     var svg = document.getElementById("svgarea");
-    svg.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    svg.setAttribute("height", window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight);
     var ns = "http://www.w3.org/2000/svg";
     function randomsquare()
     {
