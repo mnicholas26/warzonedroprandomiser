@@ -1,4 +1,4 @@
-window.onload()
+window.onload = function()
 {
     var svg = document.getElementById("svgarea");
     var ns = "http://www.w3.org/2000/svg";
