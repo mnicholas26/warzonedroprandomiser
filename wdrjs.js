@@ -1,4 +1,4 @@
-document.onload()
+window.onload()
 {
     var svg = document.getElementById("svgarea");
     var ns = "http://www.w3.org/2000/svg";
@@ -21,7 +21,7 @@ document.onload()
         if(currect != undefined) svg.removeChild(currect);
         svg.appendChild(square);
     }
-    
+
     document.getElementById("roll").addEventListener("click", () => {
         randomsquare();
     });
