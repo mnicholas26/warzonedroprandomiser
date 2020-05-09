@@ -5,8 +5,8 @@ window.onload = function()
     function randomsquare()
     {
         let currect = document.getElementById("dropsquare");
-        let x = 8 + 98.4*Math.floor(Math.random()*10);
-        let y = 8 + 98.4*Math.floor(Math.random()*10);
+        let x = 8 + 98.4*Math.floor(2+Math.random()*7);
+        let y = 8 + 98.4*Math.floor(1+Math.random()*8);
 
         let square = document.createElementNS(ns, "rect");
         square.setAttribute('width', 97.4);
