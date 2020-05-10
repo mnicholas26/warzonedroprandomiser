@@ -13,24 +13,34 @@ body{
     justify-content: space-around;
 }
 
-.column{
+.sidebar{
     width: 300px;
     max-height: 80%;
+}
+
+.column{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
 }
 
-.column > *{
-    width: 80%;
-    font-size: 20px;
+.row{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
     align-items: center;
-    padding: 10px 0;
+    justify-content: space-evenly;
+}
+
+.sidebar > *{
+    width: 80%;
+    font-size: 20px;
+    align-items: center;
     text-align: center;
+}
+
+.sidebar > * > *{
+    padding: 10px 0;
 }
 
 .dropdownwrapper{
@@ -73,6 +83,40 @@ body{
 
 .description div{
     font-size: 14px;
+}
+
+.toggle{
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    border: rgb(255, 198, 10) 1px solid;
+    font-size: 100%;
+}
+
+.toggle:hover{
+    background-color: rgb(59, 68, 68);
+}
+
+.toggle::after{
+    content: '✔';
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: none;
+}
+
+.toggle:hover::after{
+    display: block;
+    color: rgba(255, 198, 10, 0.65);
+}
+
+.checked.toggle::after{
+    display: block;
+}
+
+.checked.toggle:hover::after{
+    color: rgb(255, 198, 10);
 }
 
 .hidden{

@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="appwrapper">
-    <div id="leftcolumn" class="column"></div>
+    <div id="leftcolumn" class="sidebar column"></div>
     <svg id="svgarea" viewbox="0 0 1000 1000">
         <defs>
             <pattern id="mapimg" patternUnits="userSpaceOnUse" width="1000" height="1000">
@@ -21,8 +21,8 @@
         </defs>
         <rect id="map" width="1000" height="1000" x="0" y="0" fill="url(#mapimg)"></rect>
     </svg>
-    <div id="rightcolumn" class="column">
-        <div id="methodselect">
+    <div id="rightcolumn" class="sidebar column">
+        <div id="methodselect" class="row">
             <span>Method:</span>
             <div id="methoddropdown" class="dropdownwrapper">
                 <div class="dropdown">Map Cell</div>
@@ -38,7 +38,10 @@
                 <span>Description:</span>
                 <div>This method selects a cell from the map grid</div>
             </div>
-            <div class="deadzones"></div>
+            <div class="deadzones row">
+                <span>Deadzones:</span>
+                <div class="toggle"></div>
+            </div>
             <div class="biases"></div>
             <div class="animation"></div>
             <div class="methodsettings"></div>

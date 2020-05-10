@@ -9,6 +9,17 @@ window.onload = function()
     {
         let method = {};
         method.name = 'Map Cell';
+        //method.squares = [...Array(64).keys()];
+        method.displaydeadzones = {};
+        method.displaydeadzones.value = false;
+        method.displaydeadzones.toggle = () => {
+            method.displaydeadzones.value = !method.displaydeadzones.value;
+            let squares = document.querySelectorAll('.deadzone');
+            for(let i = 0; i < squares.length; i++)
+            {
+                squares[i].classList.toggle('hidden');
+            }
+        }
         method.deadzones = [];
         method.settings = {};
         method.animations = [];
@@ -69,6 +80,25 @@ window.onload = function()
         method.deadzones = method.defaults.deadzones;
         method.settings = method.defaults.settings;
 
+        method.drawdeadzones = () =>
+        {
+            for(let i = 0; i < method.deadzones.length; i++)
+            {
+                let deadzone = document.createElementNS(ns, "rect");
+                deadzone.setAttribute('width', 97.4);
+                deadzone.setAttribute('height', 97.4);
+                deadzone.setAttribute('x', (method.deadzones[i].x*98.4) + 8);
+                deadzone.setAttribute('y', (method.deadzones[i].y*98.4) + 8);
+                deadzone.setAttribute('fill', "rgba(204,0,0,0.2)");
+                deadzone.setAttribute('stroke', "rgb(204,0,0)");
+                deadzone.setAttribute('stroke-width', 2);
+                deadzone.setAttribute('class', "deadzone hidden");
+                svgarea.appendChild(deadzone);
+            }
+        }
+
+        method.drawdeadzones();
+
         method.dom = document.getElementById('methodsquare');
         method.show = () => {method.dom.classList.remove('hidden');}
         method.hide = () => {method.dom.classList.add('hidden');}
@@ -80,6 +110,7 @@ window.onload = function()
     {
         let method = {};
         method.name = 'Coordinate';
+        method.displaydeadzones = false;
         method.deadzones = [];
         method.settings = {};
         method.animations = [];
@@ -145,6 +176,14 @@ window.onload = function()
             currentmethod = methods[i];
             currentmethod.toggle();
             dropdowncontent.textContent = currentmethod.name;
+        });
+    }
+    let toggles = document.querySelectorAll('.toggle');
+    for(let i = 0; i < toggles.length; i++)
+    {
+        toggles[i].addEventListener('mousedown', () => {
+            toggles[i].classList.toggle('checked');
+            currentmethod.displaydeadzones.toggle()
         });
     }
 
