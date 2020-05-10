@@ -5,10 +5,6 @@ body{
     color: rgb(255, 198, 10);
 }
 
-.hidden{
-    display: none;
-}
-
 #appwrapper{
     height: 100%;
     width: 100%;
@@ -29,18 +25,16 @@ body{
 .column > *{
     width: 80%;
     font-size: 20px;
-}
-
-#methodselect{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+    padding: 10px 0;
+    text-align: center;
 }
 
 .dropdownwrapper{
     position: relative;
-    text-align: center;
     margin: 4px;
     min-width: 100px;
     text-align: center;
@@ -77,7 +71,10 @@ body{
     background-color: rgb(59, 68, 68);
 }
 
-/*.column > * > *{
-    display: flex;
-    flex-direction: row;
-}*/
+.description div{
+    font-size: 14px;
+}
+
+.hidden{
+    display: none;
+}
