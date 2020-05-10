@@ -50,6 +50,7 @@ body{
 .dropdown{
     border: rgb(255, 198, 10) 1px solid;
     padding: 4px;
+    min-width: 100px;
 }
 
 .dropdown + div{

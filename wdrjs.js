@@ -5,9 +5,6 @@ window.onload = function()
     svg.setAttribute("height", window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight);
     var ns = "http://www.w3.org/2000/svg";
 
-    //setup column functionality
-    document.getElementById("methoddropdown");
-
     function makemethod1()
     {
         let method = {};
@@ -71,6 +68,11 @@ window.onload = function()
 
         method.deadzones = method.defaults.deadzones;
         method.settings = method.defaults.settings;
+
+        method.dom = document.getElementById('methodsquare');
+        method.show = () => {method.dom.classList.remove('hidden');}
+        method.hide = () => {method.dom.classList.add('hidden');}
+        method.toggle = () => {method.dom.classList.toggle('hidden');}
         return method;
     }
 
@@ -119,13 +121,33 @@ window.onload = function()
 
         method.deadzones = method.defaults.deadzones;
         method.settings = method.defaults.settings;
+        method.dom = document.getElementById('methodcircle');
+        method.show = () => {method.dom.classList.remove('hidden');}
+        method.hide = () => {method.dom.classList.add('hidden');}
+        method.toggle = () => {method.dom.classList.toggle('hidden');}
         return method;
     }
     
     var methods = [];
-    let defaultmethod = makemethod1();
-    methods.push(defaultmethod);
+    methods.push(makemethod1());
+    methods.push(makemethod2());
+    let defaultmethod = methods[0];
     var currentmethod = defaultmethod;
+
+    //setup column functionality
+    let dropdown = document.getElementById("methoddropdown");
+    let dropdowncontent = dropdown.children[0];
+    let dropwdownlist = dropdown.children[1];
+    for(let i = 0, children = dropwdownlist.children; i < children.length; i++)
+    {
+        children[i].addEventListener('click', () => {
+            currentmethod.toggle();
+            currentmethod = methods[i];
+            currentmethod.toggle();
+            dropdowncontent.textContent = currentmethod.name;
+        });
+    }
+
 
     document.getElementById("roll").addEventListener("click", () => {
         currentmethod.random();
@@ -135,5 +157,6 @@ window.onload = function()
         {
             randomsquare();
         }*/
+
     });
 }
