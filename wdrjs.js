@@ -8,52 +8,127 @@ window.onload = function()
     //setup column functionality
     document.getElementById("methoddropdown");
 
-    //set up default settings
-    
-
-
-
-    function randomsquare()
+    function makemethod1()
     {
-        let deadzones = [
-            {x: 2, y: 1},
-            {x: 2, y: 8},
-            {x: 5, y: 1},
-            {x: 6, y: 1},
-            {x: 7, y: 1},
-            {x: 8, y: 1},
-            {x: 8, y: 2},
-            {x: 8, y: 3},
-            {x: 8, y: 4}
-        ]
-        let currect = document.getElementById("dropsquare");
-        let deadzone = true;
-        let row, col = 0;
-        while(deadzone)
+        let method = {};
+        method.name = 'Map Cell';
+        method.deadzones = [];
+        method.settings = {};
+        method.animations = [];
+
+        method.random = function randomsquare()
         {
-            row = 1 + Math.floor(Math.random()*8);
-            col = 2 + Math.floor(Math.random()*7);
-            if(!deadzones.map(x => x.x + (x.y*10)).includes((row*10)+col)) deadzone = false;
+            let mapmarkers = document.querySelectorAll(".marker");
+            let deadzone = true;
+            let row, col = 0;
+            while(deadzone)
+            {
+                row = 1 + Math.floor(Math.random()*8);
+                col = 2 + Math.floor(Math.random()*7);
+                if(!method.deadzones.map(x => x.x + (x.y*10)).includes((row*10)+col)) deadzone = false;
+            }
+            let x = 8 + 98.4*col;
+            let y = 8 + 98.4*row;
+
+            let marker = document.createElementNS(ns, "rect");
+            marker.setAttribute('width', 97.4);
+            marker.setAttribute('height', 97.4);
+            marker.setAttribute('x', x);
+            marker.setAttribute('y', y);
+            marker.setAttribute('fill', "rgba(255,298,10,0.2)");
+            marker.setAttribute('stroke', "rgb(255,198,10)");
+            marker.setAttribute('stroke-width', 2);
+            marker.setAttribute('class', "marker");
+
+            if(mapmarkers != undefined)
+            {
+                for(let i = 0; i < mapmarkers.length; i++)
+                {
+                    svg.removeChild(mapmarkers[i]);
+                }
+            }
+            svg.appendChild(marker);
         }
-        let x = 8 + 98.4*col;
-        let y = 8 + 98.4*row;
 
-        let square = document.createElementNS(ns, "rect");
-        square.setAttribute('width', 97.4);
-        square.setAttribute('height', 97.4);
-        square.setAttribute('x', x);
-        square.setAttribute('y', y);
-        square.setAttribute('fill', "rgba(255,298,10,0.2)");
-        square.setAttribute('stroke', "rgb(255,198,10)");
-        square.setAttribute('stroke-width', 2);
-        square.id = "dropsquare";
+        //add animations to my random function, my defaults and as a property of the object
 
-        if(currect != undefined) svg.removeChild(currect);
-        svg.appendChild(square);
+        method.defaults = {
+            deadzones: [
+                {x: 2, y: 1},
+                {x: 2, y: 8},
+                {x: 5, y: 1},
+                {x: 6, y: 1},
+                {x: 7, y: 1},
+                {x: 8, y: 1},
+                {x: 8, y: 2},
+                {x: 8, y: 3},
+                {x: 8, y: 4}
+            ],
+            settings: {
+                granularity: 1
+            }
+        }
+
+        method.deadzones = method.defaults.deadzones;
+        method.settings = method.defaults.settings;
+        return method;
     }
 
+    function makemethod2()
+    {
+        let method = {};
+        method.name = 'Coordinate';
+        method.deadzones = [];
+        method.settings = {};
+        method.animations = [];
+
+        method.random = function randompoint()
+        {
+            let mapmarkers = document.querySelectorAll(".marker");
+            let x = 0, y = 0;
+            x = 106.4 + Math.floor(Math.random()*(1000-212.8));
+            y = 106.4 + Math.floor(Math.random()*(1000-212.8));
+
+            let marker = document.createElementNS(ns, "circle");
+            marker.setAttribute('r', method.defaults.settings.size);
+            marker.setAttribute('cx', x);
+            marker.setAttribute('cy', y);
+            marker.setAttribute('fill', "rgba(255,298,10,0.2)");
+            marker.setAttribute('stroke', "rgb(255,198,10)");
+            marker.setAttribute('stroke-width', 2);
+            marker.setAttribute('class', "marker");
+
+            if(mapmarkers != undefined)
+            {
+                for(let i = 0; i < mapmarkers.length; i++)
+                {
+                    svg.removeChild(mapmarkers[i]);
+                }
+            }
+            svg.appendChild(marker);
+        }
+
+        //add animations to my random function, my defaults and as a property of the object
+
+        method.defaults = {
+            deadzones: [],
+            settings: {
+                size: 60
+            }
+        }
+
+        method.deadzones = method.defaults.deadzones;
+        method.settings = method.defaults.settings;
+        return method;
+    }
+    
+    var methods = [];
+    let defaultmethod = makemethod1();
+    methods.push(defaultmethod);
+    var currentmethod = defaultmethod;
+
     document.getElementById("roll").addEventListener("click", () => {
-        randomsquare();
+        currentmethod.random();
         /* 
         //for testing
         for(let i = 0; i < 100; i++)
