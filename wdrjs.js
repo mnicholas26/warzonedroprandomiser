@@ -9,6 +9,8 @@ window.onload = function()
     {
         let method = {};
         method.name = 'Map Cell';
+        method.group = {};
+        method.dom = document.getElementById('methodcell');
         method.cells = {
             domcells: [],
             swap: function (cell){
@@ -45,7 +47,7 @@ window.onload = function()
 
         method.random = function randomsquare()
         {
-            let mapmarkers = document.querySelectorAll(".marker");
+            let mapmarkers = method.group.querySelectorAll(".marker");
             let possiblecells = method.cells.domcells.filter((item) => {
                 return !item.deadzone;
             });
@@ -85,6 +87,9 @@ window.onload = function()
         method.settings = method.defaults.settings;
 
         method.makescells = () => {
+            let group = document.createElementNS(ns, "g");
+            method.group = group;
+            svg.appendChild(group);
             for(let i = 0; i < 64; i++)
             {
                 let x = (((i%8)+1)*98.4)+8;
@@ -114,13 +119,17 @@ window.onload = function()
                     cell.toggle("deadzone");
                     cell.off('marker');
                 })
-                svg.appendChild(cell);
+                group.appendChild(cell);
                 if(method.defaults.deadzones.includes(i)) cell.toggle("deadzone");
                 method.cells.domcells.push(cell);
             }
         }
 
         method.makescells();
+        method.toggle = () => {
+            method.group.classList.toggle('hidden');
+            method.dom.classList.toggle('hidden');
+        }
         return method;
     }
 
@@ -128,6 +137,10 @@ window.onload = function()
     {
         let method = {};
         method.name = 'Coordinate';
+        let group = document.createElementNS(ns, "g");
+        group.setAttribute("class", "hidden");
+        svg.appendChild(group);
+        method.group = group;
         method.displaydeadzones = false;
         method.deadzones = [];
         method.settings = {};
@@ -135,7 +148,7 @@ window.onload = function()
 
         method.random = function randompoint()
         {
-            let mapmarkers = document.querySelectorAll(".marker");
+            let mapmarkers = method.group.querySelectorAll(".marker");
             let x = 0, y = 0;
             x = 106.4 + Math.floor(Math.random()*(1000-212.8));
             y = 106.4 + Math.floor(Math.random()*(1000-212.8));
@@ -153,10 +166,10 @@ window.onload = function()
             {
                 for(let i = 0; i < mapmarkers.length; i++)
                 {
-                    svg.removeChild(mapmarkers[i]);
+                    method.group.removeChild(mapmarkers[i]);
                 }
             }
-            svg.appendChild(marker);
+            method.group.appendChild(marker);
         }
 
         //add animations to my random function, my defaults and as a property of the object
@@ -173,7 +186,10 @@ window.onload = function()
         method.dom = document.getElementById('methodcircle');
         method.show = () => {method.dom.classList.remove('hidden');}
         method.hide = () => {method.dom.classList.add('hidden');}
-        method.toggle = () => {method.dom.classList.toggle('hidden');}
+        method.toggle = () => {
+            method.group.classList.toggle('hidden');
+            method.dom.classList.toggle('hidden');
+        }
         return method;
     }
     
