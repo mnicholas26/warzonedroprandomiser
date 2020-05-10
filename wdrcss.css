@@ -122,3 +122,22 @@ body{
 .hidden{
     display: none;
 }
+
+.cell{
+    fill: rgba(255,255,255,0.1);
+    stroke: rgb(255,255,255,0.3);
+    stroke-width: 2px;
+}
+
+.marker{
+    fill: rgba(255,198,10,0.2);
+    stroke: rgb(255,198,10);
+    stroke-width: 2px;
+}
+
+.deadzone{
+    fill: rgba(204,0,0,0.2);
+    stroke: rgb(204,0,0);
+    stroke-width: 2px;
+}
+
