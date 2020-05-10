@@ -1,5 +1,12 @@
 body{
     margin: 0;
+    font-family: sans-serif;
+    background-color: rgb(39, 48, 48);
+    color: rgb(255, 198, 10);
+}
+
+.hidden{
+    display: none;
 }
 
 #appwrapper{
@@ -12,11 +19,64 @@ body{
 
 .column{
     width: 300px;
-    height: 100%;
-    background-color: aqua;
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 }
 
-/*#svgarea{
-    height: 1000;
-    width: 1000;
+.column > *{
+    width: 80%;
+    font-size: 20px;
+}
+
+#methodselect{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdownwrapper{
+    position: relative;
+    text-align: center;
+    margin: 4px;
+    min-width: 100px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dropdown{
+    border: rgb(255, 198, 10) 1px solid;
+    padding: 4px;
+}
+
+.dropdown + div{
+    display: none;
+    position: absolute;
+    top: 100%;
+    background-color: rgb(39, 48, 48);
+}
+
+.dropdown + div > *{
+    padding: 4px;
+    margin: 2px;
+}
+
+.dropdownwrapper:hover{
+    background-color: rgb(59, 68, 68);
+}
+
+.dropdownwrapper:hover .dropdown + div{
+    display: block;
+}
+
+.dropdown + div > *:hover{
+    background-color: rgb(59, 68, 68);
+}
+
+/*.column > * > *{
+    display: flex;
+    flex-direction: row;
 }*/

@@ -1,8 +1,18 @@
 window.onload = function()
 {
+    //setup svg area, make the right height and grab the namespace for later construction of elements
     var svg = document.getElementById("svgarea");
     svg.setAttribute("height", window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight);
     var ns = "http://www.w3.org/2000/svg";
+
+    //setup column functionality
+    document.getElementById("methoddropdown");
+
+    //set up default settings
+    
+
+
+
     function randomsquare()
     {
         let deadzones = [
