@@ -126,12 +126,168 @@ window.onload = function()
         }
 
         method.makescells();
+        addListeners();
         method.toggle = () => {
             method.group.classList.toggle('hidden');
             method.dom.classList.toggle('hidden');
         }
+        method.on = () => {
+            method.group.classList.remove('hidden');
+            method.dom.classList.remove('hidden');
+            addListeners();
+        }
+        method.off = () => {
+            method.group.classList.add('hidden');
+            method.dom.classList.add('hidden');
+            removeListeners();
+        }
+
+        function addListeners()
+        {
+            svg.addEventListener('mousedown', dragselect);
+        }
+
+        function removeListeners()
+        {
+            svg.removeEventListener('mousedown', dragselect);
+        }
+
+        function dragselect(e)
+        {
+            console.log(e.shiftKey);
+            let startpos = getMousePosition(e);
+            let x1 = startpos.x, y1 = startpos.y, x2 = x1, y2 = x2;
+            if(method.cells.visible)
+            {
+                let lastselected = [];
+                svg.addEventListener('mousemove', drag);
+                svg.addEventListener('mouseup', endDrag);
+                svg.addEventListener('mouseleave', endDrag);
+                let check = window.setInterval(checkcells, 20);
+
+                function drag(e)
+                {
+                    let pos = getMousePosition(e);
+                    x2 = pos.x;
+                    y2 = pos.y;
+                }
+
+                function checkcells()
+                {
+                    let selected = [];
+                    let x3 = x1, y3 = y1, x4 = x2, y4 = y2;
+                    if(x2 < x1)
+                    {
+                        x3 = x2;
+                        x4 = x1;
+                    }
+                    if(y2 < y1)
+                    {
+                        y3 = y2;
+                        y4 = y1;
+                    }
+                    for(let i = 0, cells = method.cells.domcells; i < cells.length; i++)
+                    {
+                        let cell = cells[i];
+                        let offset = parseFloat(cell.getAttribute('height'))/2;
+                        let x = parseFloat(cell.getAttribute('x'))+offset;
+                        let y = parseFloat(cell.getAttribute('y'))+offset;
+                        if(x >= x3 && x <= x4 && y >= y3 && y <= y4) selected.push(cell);
+                    }
+                    let diff = selected
+                        .filter(x => !lastselected.includes(x))
+                        .concat(lastselected.filter(x => !selected.includes(x)));
+                    for(let i = 0; i < diff.length; i++)
+                    {
+                        diff[i].toggle('deadzone');
+                        diff[i].off('marker');
+                    }
+                    lastselected = selected;
+                }
+
+                function endDrag()
+                {
+                    window.clearInterval(check);
+                    svg.removeEventListener('mousemove', drag);
+                    svg.removeEventListener('mouseup', endDrag);
+                    svg.removeEventListener('mouseleave', endDrag);
+                }
+            }
+        }
         return method;
     }
+
+    function getMousePosition(e)
+    {
+        var CTM = svg.getScreenCTM();
+        return {
+          x: (e.clientX - CTM.e) / CTM.a,
+          y: (e.clientY - CTM.f) / CTM.d
+        };
+    }
+
+    /*function svgDrag(e, selectableitems)
+    {
+        let mousepos = getMousePosition(e);
+        svgArea.addEventListener('mousemove', drag);
+        svgArea.addEventListener('mouseup', endDrag);
+        svgArea.addEventListener('mouseleave', endDrag);
+
+        let check = window.setInterval(shapeCheck, 20);
+        
+        function drag(e)
+        {
+            let newmousepos = getMousePosition(e);
+            let width = newmousepos.x - mousepos.x;
+            let height = newmousepos.y - mousepos.y;
+            if(height < 0)
+            {
+                highlightrect.setAttribute('y', newmousepos.y);
+                height *= -1;
+
+            }
+            if(width < 0)
+            {
+                highlightrect.setAttribute('x', newmousepos.x);
+                width *= -1;
+            }
+
+            highlightrect.setAttribute('width', width);
+            highlightrect.setAttribute('height', height);
+        }
+
+        function shapeCheck()
+        {
+            let x, y, selected = [];
+            let x1 = parseFloat(highlightrect.getAttribute('x'));
+            let x2 = x1 + parseFloat(highlightrect.getAttribute('width'));
+            let y1 = parseFloat(highlightrect.getAttribute('y'));
+            let y2 = y1 + parseFloat(highlightrect.getAttribute('height'));
+            for(let i = 0; i < currentshapes.length; i++)
+            {
+                x = currentshapes[i].translate.matrix.e;
+                y = currentshapes[i].translate.matrix.f;
+                if(x >= x1 && x <= x2 && y >= y1 && y <= y2) selected.push(currentshapes[i]);
+            }
+            if(selected.length > 0)
+            {
+                if(shiftdown) addSelection(selected);
+                //else if(e.ctrlKey) toggleSelection(selected);
+                else handleSelection(selected);
+            }
+            else if(!shiftdown) handleSelection();
+
+        }
+
+        function endDrag()
+        {
+            window.clearInterval(check);
+            svgArea.removeEventListener('mousemove', drag);
+            svgArea.removeEventListener('mouseup', endDrag);
+            svgArea.removeEventListener('mouseleave', endDrag);
+            svgArea.removeChild(highlightrect);
+        }
+    }*/
 
     function makemethod2()
     {
