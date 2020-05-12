@@ -154,7 +154,6 @@ window.onload = function()
 
         function dragselect(e)
         {
-            console.log(e.shiftKey);
             let startpos = getMousePosition(e);
             let x1 = startpos.x, y1 = startpos.y, x2 = x1, y2 = x2;
             if(method.cells.visible)
@@ -226,68 +225,6 @@ window.onload = function()
         };
     }
 
-    /*function svgDrag(e, selectableitems)
-    {
-        let mousepos = getMousePosition(e);
-        svgArea.addEventListener('mousemove', drag);
-        svgArea.addEventListener('mouseup', endDrag);
-        svgArea.addEventListener('mouseleave', endDrag);
-
-        let check = window.setInterval(shapeCheck, 20);
-        
-        function drag(e)
-        {
-            let newmousepos = getMousePosition(e);
-            let width = newmousepos.x - mousepos.x;
-            let height = newmousepos.y - mousepos.y;
-            if(height < 0)
-            {
-                highlightrect.setAttribute('y', newmousepos.y);
-                height *= -1;
-
-            }
-            if(width < 0)
-            {
-                highlightrect.setAttribute('x', newmousepos.x);
-                width *= -1;
-            }
-
-            highlightrect.setAttribute('width', width);
-            highlightrect.setAttribute('height', height);
-        }
-
-        function shapeCheck()
-        {
-            let x, y, selected = [];
-            let x1 = parseFloat(highlightrect.getAttribute('x'));
-            let x2 = x1 + parseFloat(highlightrect.getAttribute('width'));
-            let y1 = parseFloat(highlightrect.getAttribute('y'));
-            let y2 = y1 + parseFloat(highlightrect.getAttribute('height'));
-            for(let i = 0; i < currentshapes.length; i++)
-            {
-                x = currentshapes[i].translate.matrix.e;
-                y = currentshapes[i].translate.matrix.f;
-                if(x >= x1 && x <= x2 && y >= y1 && y <= y2) selected.push(currentshapes[i]);
-            }
-            if(selected.length > 0)
-            {
-                if(shiftdown) addSelection(selected);
-                //else if(e.ctrlKey) toggleSelection(selected);
-                else handleSelection(selected);
-            }
-            else if(!shiftdown) handleSelection();
-
-        }
-
-        function endDrag()
-        {
-            window.clearInterval(check);
-            svgArea.removeEventListener('mousemove', drag);
-            svgArea.removeEventListener('mouseup', endDrag);
-            svgArea.removeEventListener('mouseleave', endDrag);
-            svgArea.removeChild(highlightrect);
-        }
-    }*/
 
     function makemethod2()
     {
@@ -375,6 +312,57 @@ window.onload = function()
             toggles[i].classList.toggle('checked');
             currentmethod.cells.toggle()
         });
+    }
+    let sliders = document.querySelectorAll('.slider');
+    for(let i = 0; i < sliders.length; i++)
+    {
+        setupSlider(sliders[i]);
+    }
+
+    function setupSlider(slider)
+    {
+        let trolley = slider.firstElementChild;
+        let icon = trolley.firstElementChild;
+        //this dictates notches if you want discrete, input example [0, 25, 50, 75, 100]
+        slider.notches = [];
+        slider.x = trolley.getBoundingClientRect().x;
+        slider.width = trolley.getBoundingClientRect().width;
+        slider.percent = 0;
+        slider.pressed = false;
+        slider.addEventListener('mousedown', () => {
+            slider.pressed = true;
+            slider.x = trolley.getBoundingClientRect().x;
+        });
+        window.addEventListener('mousemove', (e) => {
+            if(slider.pressed)
+            {
+                slider.percent = round(100*(e.clientX - slider.x)/slider.width);
+                if(slider.percent < 0) slider.percent = 0;
+                if(slider.percent > 100) slider.percent = 100;
+                icon.style.left = "calc(" + slider.percent + "% - 2.5px)";
+            }
+        });
+        window.addEventListener('mouseup', () => {
+            slider.pressed = false;
+        });
+        document.body.addEventListener('mouseleave', () => {
+            slider.pressed = false;
+        });
+
+        function round(per){
+            let offset = 100;
+            let notch = per;
+            for(let i = 0; i < slider.notches.length; i++)
+            {
+                let attempt = Math.abs(per-slider.notches[i]);
+                if(attempt < offset) 
+                {
+                    notch = slider.notches[i];
+                    offset = attempt;
+                }
+            }
+            return notch;
+        }
     }
 
 

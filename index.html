@@ -22,32 +22,41 @@
         <rect id="map" width="1000" height="1000" x="0" y="0" fill="url(#mapimg)"></rect>
     </svg>
     <div id="rightcolumn" class="sidebar column">
-        <div id="methodselect" class="row">
+        <div id="methodselect" class="row title">
             <span>Method:</span>
             <div id="methoddropdown" class="dropdownwrapper">
                 <div class="dropdown">Map Cell</div>
                 <div>
                     <div>Map Cell</div>
                     <div>Coordinate</div>
-                    <!--<div>Name</div>-->
                 </div>
             </div>
         </div>
         <div id="methodcell">
-            <div class="description">
+            <div class="description title">
                 <span>Description:</span>
                 <div>This method selects a cell from the map grid</div>
             </div>
-            <div class="deadzones row">
+            <div class="deadzones title row">
                 <span>Deadzones:</span>
                 <div class="toggle"></div>
+            </div>
+            <div class="column title">
+                <span>Granularity:</span>
+                <div class="sliderwrapper">
+                    <div id="granularityslider"class="slider column">
+                        <div class="slidertrolley">
+                            <div class="slidericon"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="biases"></div>
             <div class="animation"></div>
             <div class="methodsettings"></div>
         </div>
         <div id="methodcircle" class="hidden">
-            <div class="description">
+            <div class="description title">
                 <span>Description:</span>
                 <div>This method selects a random coordinate and displays a circle around it</div>
             </div>
